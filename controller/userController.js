@@ -53,5 +53,33 @@ exports.loginController = async (req,res)=>{
         res.status(500).json(err)
     }
 }
+// google login
+exports.googleLoginController = async (req,res)=>{
+    console.log("Inside googleLoginController");
+    const {email,password,username,picture} = req.body
+    console.log(email,password,username,picture);
+    try{
+        // check mail
+        const existingUser = await users.findOne({email})
+        if(existingUser){
+            //login
+            //generate token
+            const token = jwt.sign({userMail:existingUser.email,role:existingUser.role},process.env.JWTSECRET)
+                res.status(200).json({user:existingUser,token})
+        }
+        else{
+            // auto register
+            const newUser = await users.create({
+                username,email,password,picture
+            })
+            const token = jwt.sign({userMail:newUser.email,role:newUser.role},process.env.JWTSECRET)
+                res.status(200).json({user:newUser,token})
+        }
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }  
+}
 // user edit profile
 // admin edit profile
