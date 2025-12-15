@@ -3,55 +3,55 @@ const mongoose = require('mongoose')
 const bookSchema = new mongoose.Schema({
     title:{
         type:String,
-        require:true
+        required:true
     },
     author:{
         type:String,
-        require:true
+        required:true
     },
     pages:{
         type:Number,
-        require:true
+        required:true
     },
     price:{
         type:Number,
-        require:true
+        required:true
     },
     discountPrice:{
         type:Number,
-        require:true
+        required:true
     },
     imageURL:{
         type:String,
-        require:true
+        required:true
     },
     abstract:{
         type:String,
-        require:true
+        required:true
     },
     language:{
         type:String,
-        require:true
+        required:true
     },
     publisher:{
         type:String,
-        require:true
+        required:true
     },
     isbn:{
         type:String,
-        require:true
+        required:true
     },
     category:{
         type:String,
-        require:true
+        required:true
     },
-    uploadImage:{
+    uploadImages:{
         type:Array,
-        require:true
+        required:true
     },
     sellerMail:{
         type:String,
-        require:true
+        required:true
     },
     status:{
         type:String,
