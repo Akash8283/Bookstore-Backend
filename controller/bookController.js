@@ -28,3 +28,66 @@ exports.addBookController = async(req,res)=>{
         res.status(500).json(err)
     }
 }
+
+// get home books
+exports.getHomePageBooksController = async (req,res)=>{
+    console.log("Inside getHomePageBooksController");
+    try{
+        // get newly added 4 books from db
+        const homeBooks = await books.find().sort({_id:-1}).limit(4)
+        res.status(200).json(homeBooks)
+
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+    
+}
+
+// get all books - user
+exports.getUserAllBooksPageController = async (req,res)=>{
+    console.log("getUserAllBooksPageController");
+    // get login user mail from token
+    const loginUserMail = req.payload
+    try{
+        // get all books from db except logged in user
+        const allBooks = await books.find({sellerMail:{$ne:loginUserMail}})
+        res.status(200).json(allBooks)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+    
+}
+
+// get all user uploaded books
+exports.getUserUploadBookProfilePageController = async (req,res)=>{
+    console.log("getUserAllBooksPageController");
+    // get login user mail from token
+    const loginUserMail = req.payload
+    try{
+        // get all user uploaded books from db 
+        const allUserBooks = await books.find({sellerMail:loginUserMail})
+        res.status(200).json(allUserBooks)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+    
+}
+
+// get all user bought books
+exports.getUserBoughtBookProfilePageController = async (req,res)=>{
+    console.log("getUserAllBooksPageController");
+    // get login user mail from token
+    const loginUserMail = req.payload
+    try{
+        // get all user purchsed books from db 
+        const allUserPurchaseBooks = await books.find({buyerMail:loginUserMail})
+        res.status(200).json(allUserPurchaseBooks)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+    
+}
