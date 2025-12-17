@@ -29,7 +29,7 @@ exports.addBookController = async(req,res)=>{
     }
 }
 
-// get home books
+// get home books - guest user
 exports.getHomePageBooksController = async (req,res)=>{
     console.log("Inside getHomePageBooksController");
     try{
@@ -84,7 +84,7 @@ exports.getUserBoughtBookProfilePageController = async (req,res)=>{
     try{
         // get all user purchsed books from db 
         const allUserPurchaseBooks = await books.find({buyerMail:loginUserMail})
-        res.status(200).json(allUserPurchaseBooks)
+        res.status(200).json(allUserPurchaseBooks)         
     }catch(err){
         console.log(err);
         res.status(500).json(err)
