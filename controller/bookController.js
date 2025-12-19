@@ -44,14 +44,17 @@ exports.getHomePageBooksController = async (req,res)=>{
     
 }
 
-// get all books - user
+// get all books - user : login user
 exports.getUserAllBooksPageController = async (req,res)=>{
     console.log("getUserAllBooksPageController");
+    // get query from request
+    const searchKey = req.query.search
+    console.log(searchKey);
     // get login user mail from token
     const loginUserMail = req.payload
     try{
         // get all books from db except logged in user
-        const allBooks = await books.find({sellerMail:{$ne:loginUserMail}})
+        const allBooks = await books.find({sellerMail:{$ne:loginUserMail},title:{$regex:searchKey,$options:'i'}})
         res.status(200).json(allBooks)
     }catch(err){
         console.log(err);
@@ -90,4 +93,16 @@ exports.getUserBoughtBookProfilePageController = async (req,res)=>{
         res.status(500).json(err)
     }
     
+}
+// get one book details
+exports.getOneBookDetailController = async (req,res)=>{
+    // get id from request
+    const {id} = req.params 
+    try{
+        const book = await books.findById({_id:id})
+        res.status(200).json(book)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
 }
