@@ -4,6 +4,7 @@ const userController = require('../controller/userController')
 const bookController = require('../controller/bookController')
 const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const multerMiddleware = require("../middlewares/multerMiddleware")
+const adminMiddleware = require('../middlewares/adminMiddleware')
 // create router object
 const router = new express.Router()
 
@@ -40,5 +41,18 @@ router.get('/books/:id/view',jwtMiddleware,bookController.getOneBookDetailContro
 // user edit
 router.put('/user/:id/edit',jwtMiddleware,multerMiddleware.single('picture'),userController.updateUserProfileController) 
 
+// delete book
+router.delete('/books/:id',jwtMiddleware,bookController.deleteBookController)
+
+// ---------authorized admin---------
+
+// get all books
+router.get("/admin-books/all",adminMiddleware,bookController.getAllBooksController)
+
+// get all users
+router.get("/admin-users/all",adminMiddleware,userController.getAllUsersController)
+
+// update book status
+router.put("/books/:id/update",adminMiddleware,bookController.updateBookStatusController) 
 
 module.exports = router

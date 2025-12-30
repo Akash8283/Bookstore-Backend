@@ -94,6 +94,7 @@ exports.getUserBoughtBookProfilePageController = async (req,res)=>{
     }
     
 }
+
 // get one book details
 exports.getOneBookDetailController = async (req,res)=>{
     // get id from request
@@ -101,6 +102,50 @@ exports.getOneBookDetailController = async (req,res)=>{
     try{
         const book = await books.findById({_id:id})
         res.status(200).json(book)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
+// get all books - admin : login user
+exports.getAllBooksController = async (req,res)=>{
+    console.log("inside getAllBooksController");
+    try{
+        // get all books
+        const allBooks = await books.find()
+        res.status(200).json(allBooks)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
+// update book status - admin : login user
+exports.updateBookStatusController = async(req,res)=>{
+    console.log("Inside updateBookStatusController");
+    // get _id of book
+    const {id} = req.params
+    try{
+        const bookDetails = await books.findById({_id:id})
+        bookDetails.status = "approved"
+        // save changes to mongoBD
+        await bookDetails.save()
+        res.status(200).json(bookDetails)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
+// delete user book - user
+exports.deleteBookController = async(req,res)=>{
+    console.log("Inside deleteBookController");
+    // get _id of book
+    const {id} = req.params
+    try{
+        const bookDetails = await books.findByIdAndDelete({_id:id})
+        res.status(200).json(bookDetails)
     }catch(err){
         console.log(err);
         res.status(500).json(err)
