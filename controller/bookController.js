@@ -1,5 +1,5 @@
 const books = require('../models/bookModel')
-
+const stripe = require('stripe')(process.env.STRIPESECRET);
 // add books
 exports.addBookController = async(req,res)=>{
     console.log("Inside addBookController");
@@ -149,5 +149,19 @@ exports.deleteBookController = async(req,res)=>{
     }catch(err){
         console.log(err);
         res.status(500).json(err)
+    }
+}
+
+// payement
+exports.bookPaymentController = async(req,res)=>{
+    console.log("bookPaymentController");
+    const {title,author, pages,price,discountPrice,imageURL,abstract,language,publisher,isbn,category,_id,uploadImages,sellerMail} = req.body
+    const email = req.payload
+    try{
+       const updateBookDetails = await books.findByIdAndUpdate({_id},{title,author,pages,price,discountPrice,imageURL,abstract,language,publisher,isbn,category,uploadImages,sellerMail,status:"sold",buyerMail:email},{new:true})
+       
+    }catch(err){
+      console.log(err);
+      res.status(500).json(err)
     }
 }
