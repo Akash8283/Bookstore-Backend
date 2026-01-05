@@ -183,8 +183,8 @@ exports.bookPaymentController = async(req,res)=>{
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            success_url: 'http://localhost:5173/user/payment-success',
-            cancel_url:'http://localhost:5173/user/payment-error',
+            success_url: 'https://book-store-teal-delta.vercel.app/user/payment-success',
+            cancel_url:'https://book-store-teal-delta.vercel.app/user/payment-error',
             payment_method_types:["card"]
         });
        console.log(session);
